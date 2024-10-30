@@ -1,6 +1,11 @@
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Sample from './Sample';
+import userEvent from "@testing-library/user-event";
+
+//  Please review:
+//  https://testing-library.com/docs/queries/about
+//  https://testing-library.com/docs/queries/about#priority
 
 //  This is a life cycle method of testing
 afterEach(() => {
@@ -36,5 +41,21 @@ describe('Sample Component should', () => {
 
     fireEvent.click(dec);
     expect(span).toHaveTextContent('-1');
+  });
+
+
+  //  text input test
+  it('relays the message that is typed input', () => {
+    render(<Sample />);
+
+    const input = screen.getByTestId('message-input');
+
+    const span = screen.getByTestId('message-span');
+
+    const message = 'Hello, world!';
+
+    userEvent.type(input, message)
+
+    expect(span).toHaveTextContent(message);
   });
 });

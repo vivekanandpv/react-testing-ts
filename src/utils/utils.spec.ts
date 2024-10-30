@@ -4,12 +4,12 @@ import {
   printMessage,
   getGrade,
   getRandomNumber,
-  // getUsers,
+  getUsers,
 } from './utils';
 
-// import axios from 'axios';
+import axios, {AxiosHeaders} from 'axios';
 
-// jest.mock('axios');
+jest.mock('axios');
 
 describe('Utils should', () => {
   it('square a given number', () => {
@@ -70,17 +70,27 @@ describe('Utils should', () => {
     expect(squareMockFunction(5)).toEqual(25);
   });
 
-  //  mocking the axios
-  // it('get users from the api', async () => {
-  //   //  load the mock
-  //   (axios.get as any).mockImplementation(() => {
-  //     console.log('from mock axios');
-  //     return Promise.resolve({ title: 'users', count: 12 });
-  //   });
+   // mocking the axios
+  //  For mocking to work, please check package.json (under scripts.test):
+  //  https://stackoverflow.com/a/75562896/3969961
+  //  https://stackoverflow.com/a/75191899/3969961
+  it('get users from the api', async () => {
+    //  load the mock
 
-  //   const response = await getUsers();
+    (axios.get as any).mockResolvedValue({
+      data: { title: 'users', count: 12 },
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+      config: {
+        headers: AxiosHeaders.concat()
+      },
+      request: {}
+    });
 
-  //   expect(response.data.count).toEqual(12);
-  //   expect(response.data.title).toEqual('users');
-  // });
+    const response = await getUsers();
+
+    expect(response.data.count).toEqual(12);
+    expect(response.data.title).toEqual('users');
+  });
 });

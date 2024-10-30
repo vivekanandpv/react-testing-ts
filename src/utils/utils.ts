@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 
 //  return-value
 export const square = (n: number) => n * n;
@@ -42,8 +42,7 @@ export const getRandomNumber = () => {
   });
 };
 
-//  real api call
-// export const getUsers = () => {
-//   console.log('making the actual call');
-//   return axios.get('https://jsonplaceholder.typicode.com/users');
-// };
+ // real api call
+export const getUsers = () => {
+  return axios.get('https://jsonplaceholder.typicode.com/users');
+};
